@@ -1,0 +1,52 @@
+dlc_slam: {
+  # Frames
+  worldFrame: "world",
+  odomFrame: "map",
+
+  # Sensor Settings
+  sensor: velodyne,                             # lidar sensor type, either 'velodyne' or 'ouster'
+  N_SCAN: 64,                                   # number of lidar channel (i.e., 16, 32, 64, 128)
+
+  # CPU Params
+  onboardCpuCores: 4,                            # number of cores for mapping optimization
+  mappingProcessInterval: 1.15,
+  intraLoopClosureProcessInterval: 0.5,
+  interLoopClosureProcessInterval: 0.5,
+  mapPublishInterval: 4.0,
+  tfPublishInterval: 0.1,
+
+  # Mapping
+  usePCM: false,
+  maxIterationTime: 5,
+  globalOptmizationEnableFlag: true,
+  mappingLeafSize: 0.4,                         # default: 0.4 - outdoor, 0.2 - indoor
+
+  # Loop closure
+  intraLoopClosureEnableFlag: true,
+  interLoopClosureEnableFlag: true,
+  descriptorType: "ScanContext",
+  # descriptorType: "LidarIris",
+  # descriptorType: "GRSD",
+  # descriptorType: "FPFH",
+  descriptLeafSize: 0.4,
+  historyKeyframeSearchRadius: 15.0,             # meters, key frame that is within n meters from current pose will be considerd for loop closure
+  historyKeyframeSearchTimeDiff: 30.0,           # seconds, key frame that is n seconds older will be considered for loop closure
+  historyKeyframeSearchNum: 3,                   # number of hostory key frames will be fused into a submap for loop closure
+  historyKeyframeFitnessScore: 0.2,              # icp threshold, the smaller the better alignment
+}
+
+# switches
+lio_livox:
+  Lidar_Type: 0    # 0-horizon
+  Used_Line: 6    # lines used for lio, set to 1~6
+  Feature_Mode: 0    # 0(false) or 1(true)
+  NumCurvSize: 2
+  DistanceFaraway: 100 # [m]  <DistanceFaraway near / >DistanceFaraway far
+  NumFlat: 3 # nums of one part's flat feature
+  PartNum: 150 # nums of one scan's parts
+  FlatThreshold: 0.02 # cloud curvature threshold of flat feature
+  BreakCornerDis: 1 # break distance of break points
+  LidarNearestDis: 1.0 # if(depth < LidarNearestDis) do not use this point 
+  KdTreeCornerOutlierDis: 0.2 # corner filter threshold
+  Use_seg: 1 # use segment algorithm
+  map_skip_frame: 2

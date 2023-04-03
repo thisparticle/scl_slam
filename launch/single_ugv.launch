@@ -1,0 +1,89 @@
+<launch>
+ 	<arg name="lioType" default="3"/>
+	<arg name="robotPrefix" default="a"/>
+	<arg name="respawnValue" default="false"/>
+
+	<!-- <env name="ROSCONSOLE_CONFIG_FILE" value="$(find dlc_slam)/config/rosconsole_debug.conf"/> -->
+
+	<group if="$(eval arg('lioType') == 1)" ns="$(arg robotPrefix)">
+		<!-- parameters -->
+		<rosparam file="$(find dlc_slam)/config/dlc_lio_sam_params.yaml" command="load" />
+
+		<!--- lio-sam main nodes -->
+		<arg name="project" default="dlc_lio_sam"/>
+		<node pkg="$(arg project)" type="$(arg project)_imuPreintegration" name="$(arg project)_imuPreintegration" output="screen" respawn="$(arg respawnValue)"/>
+		<node pkg="$(arg project)" type="$(arg project)_imageProjection" name="$(arg project)_imageProjection" output="screen" respawn="$(arg respawnValue)"/>
+		<node pkg="$(arg project)" type="$(arg project)_featureExtraction" name="$(arg project)_featureExtraction" output="screen" respawn="$(arg respawnValue)"/>
+		<node pkg="$(arg project)" type="$(arg project)_mapOptmization" name="$(arg project)_mapOptmization" output="screen" respawn="$(arg respawnValue)"/>
+		
+		<!--- Robot State TF -->
+		<param name="robot_description" command="$(find xacro)/xacro $(find dlc_slam)/config/lio_sam_robot.urdf.xacro --inorder" />
+		<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="$(arg respawnValue)">
+			<param name="tf_prefix" value="$(arg robotPrefix)"/>
+		</node>
+
+		<!--- rviz -->
+		<node pkg="rviz" type="rviz" name="lio_sam_dlc" args="-d $(find dlc_slam)/config/$(arg robotPrefix)_rviz_lio_sam_dlc.rviz" />
+	</group>
+
+	<group if="$(eval arg('lioType') == 2)" ns="$(arg robotPrefix)">
+	<!-- parameters -->
+		<rosparam command="load" file="$(find dlc_slam)/config/dlc_fast_lio_velodyne.yaml" />
+		<param name="feature_extract_enable" type="bool" value="0"/>
+		<param name="point_filter_num" type="int" value="8"/>
+		<param name="max_iteration" type="int" value="3" />
+		<param name="filter_size_surf" type="double" value="0.8" />
+		<param name="filter_size_map" type="double" value="0.2" />
+		<param name="cube_side_length" type="double" value="1000" />
+		<param name="runtime_pos_log_enable" type="bool" value="0" />
+		
+		<!--- fast-lio main node -->
+		<node pkg="dlc_fast_lio" type="fastlio_mapping" name="laserMapping" output="screen" /> 
+
+		<!--- rviz -->
+		<node pkg="rviz" type="rviz" name="fast_lio_dlc" args="-d $(find dlc_slam)/config/$(arg robotPrefix)_rviz_fast_lio_dlc.rviz" />
+	</group>
+
+	<group if="$(eval arg('lioType') == 3)" ns="$(arg robotPrefix)">
+		<!-- parameters -->
+		<rosparam command="load" file="$(find dlc_slam)/config/dlc_fast_lio_horizon.yaml" />
+		<param name="feature_extract_enable" type="bool" value="0"/>
+		<param name="point_filter_num" type="int" value="3"/>
+		<param name="max_iteration" type="int" value="3" />
+		<param name="filter_size_surf" type="double" value="0.5" />
+		<param name="filter_size_map" type="double" value="0.5" />
+		<param name="cube_side_length" type="double" value="1000" />
+		<param name="runtime_pos_log_enable" type="bool" value="1" />
+
+		<param name="keyframe_meter_gap" type="double" value="1.0"/> 
+		<param name="ifusingKeyFrame" type="bool" value="1"/>
+
+		<!--- fast-lio main node -->
+		<node pkg="dlc_fast_lio" type="fastlio_mapping" name="laserMapping" output="screen" /> 
+
+		<!--- rviz -->
+		<node pkg="rviz" type="rviz" name="fast_lio_dlc" args="-d $(find dlc_slam)/config/$(arg robotPrefix)_rviz_fast_lio_dlc.rviz" />
+	</group>
+
+	<group if="$(eval arg('lioType') == 4)" ns="$(arg robotPrefix)">
+		<rosparam command="load" file="$(find dlc_slam)/config/dlc_lio_livox_horizon_config.yaml" />
+		
+		<!-- 0-Not Use IMU, 1-Use IMU remove Rotation Distort, 2-Tightly Coupled IMU -->
+		<param name="IMU_Mode" type="int" value="2" />
+		<!-- Voxel Filter Size Use to Downsize Map Cloud -->
+		<param name="filter_parameter_corner" type="double" value="0.2" />
+		<param name="filter_parameter_surf" type="double" value="0.4" />
+		<!-- Extrinsic Parameter between Lidar & IMU -->
+		<rosparam param="Extrinsic_Tlb"> [1.0, 0.0, 0.0, -0.05512,
+                                          0.0, 1.0, 0.0, -0.02226,
+                                          0.0, 0.0, 1.0,  0.0297,
+                                          0.0, 0.0, 0.0,  1.0]</rosparam>
+
+		<!--- lio-livox main node -->
+		<node pkg="dlc_lio_livox" type="ScanRegistration" name="ScanRegistration" output="screen"/>
+		<node pkg="dlc_lio_livox" type="PoseEstimation" name="PoseEstimation" output="screen"/>
+
+		<!--- rviz -->
+		<node launch-prefix="nice" pkg="rviz" type="rviz" name="rviz" args="-d $(find dlc_slam)/config/$(arg robotPrefix)_rviz_lio_livox_dlc.rviz" />
+	</group>
+</launch>

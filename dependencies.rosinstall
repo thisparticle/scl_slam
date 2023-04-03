@@ -1,0 +1,48 @@
+- git:
+   local-name: gflags_catkin
+   uri: https://github.com/ethz-asl/gflags_catkin.git
+   version: master
+- git:
+   local-name: glog_catkin
+   uri: https://github.com/ethz-asl/glog_catkin.git
+   version: master
+- git:
+   local-name: eigen_catkin
+   uri: https://github.com/ethz-asl/eigen_catkin.git
+   version: 00b5eb2
+- git:
+   local-name: gtsam_catkin
+   uri: https://github.com/ethz-asl/gtsam_catkin.git
+   version: ecf6a04
+- git:
+   local-name: ceres_catkin
+   uri: https://gitee.com/zhongshp5/ceres_catkin.git
+   version: 3f0643f
+- git:
+   local-name: suitesparse
+   uri: https://gitee.com/zhongshp5/suitesparse.git
+   version: 0c1ee27
+- git:
+   local-name: catkin_simple
+   uri: https://github.com/catkin/catkin_simple.git
+   version: 0e62848
+- git:
+   local-name: metis_catkin
+   uri: https://github.com/ethz-asl/metis_catkin.git
+   version: c5c839c
+- git:
+   local-name: pcl_catkin
+   uri: https://gitee.com/zhongshp5/pcl_catkin.git
+   version: afe789a
+- git:
+   local-name: distributed_mapper
+   uri: https://github.com/PengYu-Team/distributed_mapper_catkin.git
+   version: cad1f6e
+- git:
+   local-name: livox_ros_driver
+   uri: https://github.com/Livox-SDK/livox_ros_driver.git
+   version: 880c46a
+- git:
+   local-name: libnabo
+   uri: https://github.com/ethz-asl/libnabo.git
+   version: 2cc2650

@@ -1,0 +1,8 @@
+int32 keyPre
+int32 keyCur
+int32 robotPre
+int32 robotCur
+sensor_msgs/PointCloud2 featureCloud
+---
+bool success
+geometry_msgs/Transform poseBetween

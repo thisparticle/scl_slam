@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<package>
+  <name>dlc_slam</name>
+  <version>1.0.0</version>
+  <description>dlc-slam</description>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <run_depend>roscpp</run_depend>
+
+  <build_depend>tf</build_depend>
+  <run_depend>tf</run_depend>
+
+  <build_depend>std_msgs</build_depend>
+  <run_depend>std_msgs</run_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <build_depend>nav_msgs</build_depend>
+  <run_depend>nav_msgs</run_depend>
+  <build_depend>visualization_msgs</build_depend>
+  <run_depend>visualization_msgs</run_depend>
+
+  <build_depend>message_generation</build_depend>
+  <run_depend>message_generation</run_depend>
+  <build_depend>message_runtime</build_depend>
+  <run_depend>message_runtime</run_depend>
+
+  <build_depend>gtsam_catkin</build_depend>
+  <run_depend>gtsam_catkin</run_depend>
+
+  <build_depend>pcl_catkin</build_depend>
+  <run_depend>pcl_catkin</run_depend>
+
+  <build_depend>distributed_mapper_catkin</build_depend>
+  <run_depend>distributed_mapper_catkin</run_depend>
+
+  <build_depend>libnabo</build_depend>
+  <run_depend>libnabo</run_depend>
+</package>
